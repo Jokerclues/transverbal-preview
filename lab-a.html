@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LAB A — המרשם הרפואי</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F7F5;
+  --text: #0A0A0A;
+  --muted: #666;
+  --accent: #1B4FD8;
+  --border: #D8D8D4;
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 17px; line-height: 1.6; }
+
+/* NAV */
+nav {
+  padding: 20px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; color: var(--muted); }
+.nav-tag { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: .08em; }
+
+/* HERO */
+.hero {
+  padding: 80px 48px 64px;
+  max-width: 780px;
+}
+.rx-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .18em;
+  color: var(--accent);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.rx-label::before {
+  content: 'Rx';
+  font-size: 18px;
+  font-style: italic;
+  font-weight: normal;
+  letter-spacing: 0;
+  color: var(--accent);
+}
+h1 {
+  font-family: var(--sans);
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 36px;
+}
+h1 strong { font-weight: 500; }
+
+.deck {
+  font-family: var(--sans);
+  font-size: 19px;
+  font-weight: 300;
+  color: #444;
+  line-height: 1.65;
+  max-width: 560px;
+  margin-bottom: 48px;
+}
+
+/* PROTOCOL BOX */
+.protocol {
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 28px 32px;
+  max-width: 480px;
+  margin-bottom: 40px;
+}
+.protocol-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.protocol-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+}
+.protocol-row:last-child { border-bottom: none; }
+.protocol-key { font-family: var(--mono); color: var(--muted); font-size: 13px; }
+.protocol-val { font-weight: 500; }
+.protocol-val.accent { color: var(--accent); }
+
+/* CTA */
+.cta-row { display: flex; align-items: center; gap: 24px; }
+.btn {
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: .08em;
+  padding: 14px 32px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn:hover { background: #1440B0; }
+.note { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+/* DIVIDER SECTION */
+.section {
+  border-top: 1px solid var(--border);
+  padding: 56px 48px;
+  max-width: 780px;
+}
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.section p {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: #333;
+  max-width: 560px;
+}
+
+.lab-badge {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--muted);
+  background: var(--bg);
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+
+<div class="lab-badge">LAB A — המרשם הרפואי</div>
+
+<nav>
+  <div class="nav-brand">בית הרמזים · נמל יפו</div>
+  <div class="nav-tag">PROTOCOL #TV-01</div>
+</nav>
+
+<div class="hero">
+  <div class="rx-label">פרוטוקול טיפולי · מסע טרנס-וורבלי</div>
+
+  <h1>
+    מה שקורה לגוף<br>
+    כשמוזיקה הופכת<br>
+    <strong>למרחב</strong>
+  </h1>
+
+  <p class="deck">
+    לא קונצרט. לא מדיטציה. 81 רמקולים בכיפת 360° — הגוף מבין לפני שהמוח מספיק לחפש קטגוריה.
+  </p>
+
+  <div class="protocol">
+    <div class="protocol-title">מרשם · DOSAGE PROTOCOL</div>
+    <div class="protocol-row">
+      <span class="protocol-key">משך</span>
+      <span class="protocol-val">90 דקות</span>
+    </div>
+    <div class="protocol-row">
+      <span class="protocol-key">מינון אקוסטי</span>
+      <span class="protocol-val">81 רמקולים · כיפת 360°</span>
+    </div>
+    <div class="protocol-row">
+      <span class="protocol-key">קבוצה</span>
+      <span class="protocol-val">עד 10 משתתפים</span>
+    </div>
+    <div class="protocol-row">
+      <span class="protocol-key">מחיר</span>
+      <span class="protocol-val accent">₪252 לאדם</span>
+    </div>
+    <div class="protocol-row">
+      <span class="protocol-key">מיקום</span>
+      <span class="protocol-val">נמל יפו</span>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <a class="btn" href="#">הזמן מקום ←</a>
+    <span class="note">ביטול עד 48 שעות מראש</span>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">01 · מה זה בעצם</div>
+  <p>
+    יש חוויות שהמוח מצליח לתייג מיד — "קונצרט", "ספא", "כנסייה". הוא מוציא את התבנית, יודע מה צפוי, ומתמקם.
+    מסע טרנס-וורבלי לא נכנס לאף תבנית. אחרי שעתיים — אנשים מנסים להסביר לחברים מה היה שם. רובם אומרים: "תבוא".
+  </p>
+</div>
+
+</body>
+</html>

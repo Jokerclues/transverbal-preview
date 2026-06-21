@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LAB C — הלובי</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@300;400&family=Noto+Sans+Hebrew:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FFFFFF;
+  --text: #111111;
+  --muted: #AAAAAA;
+  --serif: 'Noto Serif Hebrew', Georgia, serif;
+  --sans: 'Noto Sans Hebrew', system-ui, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--serif); }
+
+/* HEADER — just a thin line and location */
+header {
+  padding: 32px 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-brand {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: .15em;
+  color: var(--muted);
+}
+.header-reserve {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: .12em;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--text);
+  padding-bottom: 2px;
+}
+.header-reserve:hover { color: var(--muted); border-color: var(--muted); }
+
+/* HERO — vast whitespace, one sentence */
+.hero {
+  padding: 120px 64px 80px;
+}
+
+.hero-eyebrow {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: .3em;
+  color: var(--muted);
+  margin-bottom: 56px;
+}
+
+h1 {
+  font-family: var(--serif);
+  font-size: clamp(44px, 7vw, 88px);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  max-width: 680px;
+}
+
+/* SPACE DIVIDER — the silence */
+.space { height: 100px; }
+.thin-rule { border: none; border-top: 1px solid #E8E8E8; margin: 0 64px; }
+
+/* SINGLE SENTENCES — each a full breath */
+.breath {
+  padding: 72px 64px;
+  max-width: 860px;
+}
+
+.breath-num {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: .3em;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+
+.breath p {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text);
+  max-width: 540px;
+}
+
+/* NUMBERS — quiet */
+.quiet-numbers {
+  padding: 48px 64px 64px;
+  display: flex;
+  gap: 80px;
+}
+.num-item { }
+.num-big {
+  font-family: var(--serif);
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.num-label {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: .12em;
+  color: var(--muted);
+}
+
+/* CTA */
+.cta-wrap {
+  padding: 48px 64px 80px;
+}
+.cta-wrap p {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: .1em;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.btn {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: .15em;
+  color: var(--text);
+  border: 1px solid var(--text);
+  padding: 14px 40px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+.btn:hover { background: var(--text); color: var(--bg); }
+
+.lab-badge {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--muted);
+  background: var(--bg);
+  padding: 6px 10px;
+  border: 1px solid #E8E8E8;
+}
+</style>
+</head>
+<body>
+
+<div class="lab-badge">LAB C — הלובי</div>
+
+<header>
+  <div class="header-brand">בית הרמזים</div>
+  <a class="header-reserve" href="#">הזמן מקום</a>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">מסע טרנס-וורבלי · נמל יפו</div>
+  <h1>
+    כיפת 360°.<br>
+    81 רמקולים.<br>
+    שעתיים.<br>
+    אין לזה שם.
+  </h1>
+</div>
+
+<div class="thin-rule"></div>
+
+<div class="breath">
+  <div class="breath-num">01</div>
+  <p>
+    מוזיקת טראנס — לא כרקע, כמרחב. הגוף מבין לפני שהמוח מספיק לחפש קטגוריה.
+  </p>
+</div>
+
+<div class="thin-rule"></div>
+
+<div class="breath">
+  <div class="breath-num">02</div>
+  <p>
+    אנשים מנסים להסביר לחברים מה היה שם. רובם בסוף אומרים: "תבוא."
+  </p>
+</div>
+
+<div class="thin-rule"></div>
+
+<div class="quiet-numbers">
+  <div class="num-item">
+    <div class="num-big">81</div>
+    <div class="num-label">רמקולים</div>
+  </div>
+  <div class="num-item">
+    <div class="num-big">360°</div>
+    <div class="num-label">כיפה</div>
+  </div>
+  <div class="num-item">
+    <div class="num-big">10</div>
+    <div class="num-label">אנשים בלבד</div>
+  </div>
+  <div class="num-item">
+    <div class="num-big">₪252</div>
+    <div class="num-label">לאדם</div>
+  </div>
+</div>
+
+<div class="thin-rule"></div>
+
+<div class="cta-wrap">
+  <p>המקומות הבאים · שבוע הבא · נמל יפו</p>
+  <a class="btn" href="#">הזמן מקום</a>
+</div>
+
+</body>
+</html>

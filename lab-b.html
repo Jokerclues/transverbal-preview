@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LAB B — כתבת מגזין</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F2EBD9;
+  --text: #1A1A1A;
+  --muted: #777;
+  --red: #C41E3A;
+  --border: #D5C9B0;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); }
+
+/* TOP BAR */
+.top-bar {
+  background: var(--red);
+  color: #fff;
+  text-align: center;
+  padding: 8px;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: .12em;
+}
+
+/* MASTHEAD */
+.masthead {
+  padding: 24px 48px;
+  border-bottom: 2px solid var(--text);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.pub-name {
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: .05em;
+  color: var(--muted);
+}
+.issue-info {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .08em;
+}
+
+/* HERO */
+.hero-wrap {
+  padding: 56px 48px 0;
+  max-width: 860px;
+}
+
+.rubric {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: .2em;
+  color: var(--red);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.rubric::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--red);
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+h1 {
+  font-family: var(--serif);
+  font-size: clamp(40px, 6vw, 76px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+.byline {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+  margin-bottom: 40px;
+  display: flex;
+  gap: 24px;
+}
+
+/* PULLQUOTE */
+.pullquote {
+  border-right: 4px solid var(--red);
+  padding: 8px 24px 8px 0;
+  margin: 40px 0;
+}
+.pullquote p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(22px, 3vw, 32px);
+  line-height: 1.4;
+  color: var(--text);
+}
+
+/* BODY TEXT */
+.body-text {
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: #2A2A2A;
+  max-width: 640px;
+  margin-bottom: 28px;
+}
+
+/* TWO COL */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 40px 48px;
+  border-top: 1px solid var(--border);
+  max-width: 860px;
+}
+.col-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--muted);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.col-text {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: #333;
+}
+
+/* CTA */
+.cta-block {
+  border-top: 2px solid var(--text);
+  padding: 36px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 860px;
+}
+.cta-text { font-family: var(--serif); font-size: 22px; font-style: italic; color: var(--text); }
+.btn {
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: .1em;
+  padding: 14px 32px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn:hover { background: var(--red); }
+
+.lab-badge {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--muted);
+  background: var(--bg);
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+
+<div class="lab-badge">LAB B — כתבת מגזין</div>
+
+<div class="top-bar">ביקורת אישית · נמל יפו 2026</div>
+
+<div class="masthead">
+  <div class="pub-name">בית הרמזים · ביקורות חוויה</div>
+  <div class="issue-info">יוני 2026 · גיליון 12</div>
+</div>
+
+<div class="hero-wrap">
+  <div class="rubric">מסע טרנס-וורבלי</div>
+
+  <h1>
+    נכנסתי לכיפה<br>
+    ויצאתי אחרת
+  </h1>
+
+  <div class="byline">
+    <span>כתבה: מ. לוי</span>
+    <span>נמל יפו, מאי 2026</span>
+    <span>7 דקות קריאה</span>
+  </div>
+
+  <p class="body-text">
+    ניסיתי להסביר לחברה שלי מה היה שם. דיברתי עשר דקות. בסוף אמרה: "אוקי אבל מה <em>עשית</em> שם?" — ובדיוק זו הבעיה. לא עשיתי כלום. שכבתי. הקשבתי. 81 רמקולים בכיפת 360° עשו את כל השאר.
+  </p>
+
+  <div class="pullquote">
+    <p>"הגוף הבין לפני שהמוח הספיק לחפש קטגוריה."</p>
+  </div>
+
+  <p class="body-text">
+    שעתיים. עשרה אנשים. החושך אמיתי. המוזיקה — לא רקע, מרחב. בשלב מסוים הפסקתי לשים לב שאני שם.
+  </p>
+</div>
+
+<div class="two-col">
+  <div>
+    <div class="col-label">המפרט</div>
+    <div class="col-text">
+      90 דקות · 81 רמקולים · כיפת 360° · עד 10 משתתפים · ₪252 לאדם · נמל יפו
+    </div>
+  </div>
+  <div>
+    <div class="col-label">מי זה בשבילך</div>
+    <div class="col-text">
+      מי שעייף מ"חוויות" שצריך לשווק אותן. מי שמחפש משהו שלא יצטרך להסביר — כי לא יוכל.
+    </div>
+  </div>
+</div>
+
+<div class="cta-block">
+  <div class="cta-text">המקומות הבאים — שבוע הבא, נמל יפו</div>
+  <a class="btn" href="#">הזמן מקום ← ₪252</a>
+</div>
+
+</body>
+</html>
