@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מסע טרנס-וורבלי · בית הרמזים · כיפת 360°</title>
+<meta name="description" content="שוכבים. אוזניות. מוזיקת טראנס. הכיפה עוטפת. ועד שמרגישים בזה — הגבולות כבר לא כאלה.">
+<link rel="preload" as="image" href="img/dome-mandala.jpg" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&family=Heebo:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── DESIGN TOKENS ─────────────────────────────────────── */
+:root {
+  /* Color — warm charcoal (not cold tech-dark) */
+  --bg:      #12100E;
+  --bg2:     #1A1410;
+  --bg3:     #231B11;
+  --warm:    #E8B868;
+  --warm-dim:  rgba(232,184,104,.10);
+  --warm-glow: rgba(232,184,104,.26);
+  --line:    rgba(232,184,104,.07);
+  --line2:   rgba(232,184,104,.18);
+  --t1:      #F0EDE4;
+  --t2:      #A89880;
+  --t3:      #6B5A48;
+
+  /* Type — 2 faces only */
+  --display: "David Libre", Georgia, serif;
+  --body:    "Heebo", system-ui, -apple-system, sans-serif;
+
+  /* Motion — ONE easing token, no linear */
+  --ease:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --t-micro: 120ms;
+  --t-std:   280ms;
+  --t-cin:   550ms;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--t1);
+  font-size: 16px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.accent { color: var(--warm); }
+
+/* ── HERO: THE DOME FROM ABOVE ─────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: url("img/dome-mandala.jpg");
+  background-size: cover;
+  background-position: center;
+  opacity: .65;
+  transition: opacity 3.5s var(--ease);
+  transform-origin: center center;
+}
+
+/* B: hero bg override — radial overlay */
+.hero-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(18,16,14,.85) 72%) !important;
+}
+
+/* B: dome rotation when sound is on */
+@keyframes domeRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.hero.sound-on .hero-bg {
+  animation: domeRotate 120s linear infinite !important;
+}
+
+/* B: text fade-in (no scroll trigger, CSS keyframe) */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+.anim-in {
+  opacity: 0;
+  animation: fadeUp 0.7s var(--ease) forwards;
+  animation-delay: var(--d, 0s);
+}
+
+/* Sound-on dot pulse */
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.6); opacity: .5; }
+}
+
+.hero-inner {
+  position: relative; z-index: 2;
+  padding: 0 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  max-width: 640px;
+}
+
+.location {
+  color: var(--warm);
+  font-size: 11px;
+  letter-spacing: .42em;
+  font-weight: 500;
+  opacity: .8;
+}
+
+h1 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(38px, 6vw, 60px);
+  letter-spacing: -.02em;
+  line-height: 1.1;
+  text-shadow: 0 4px 48px rgba(0,0,0,.9);
+}
+
+.h1-sub {
+  font-size: clamp(14px, 1.9vw, 20px);
+  color: var(--t2);
+  font-weight: 300;
+  letter-spacing: .07em;
+}
+
+.meta-row {
+  display: flex; gap: 24px;
+  justify-content: center;
+  font-size: 13.5px;
+  color: var(--t3);
+  flex-wrap: wrap;
+}
+.meta-row .price { color: var(--warm); }
+
+/* Sound button */
+.sound-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: none;
+  border: 1px solid var(--line2);
+  color: var(--t2);
+  padding: 10px 24px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: var(--body);
+  font-size: 12.5px;
+  letter-spacing: .07em;
+  margin-top: 6px;
+  transition:
+    border-color var(--t-std) var(--ease),
+    color var(--t-std) var(--ease),
+    box-shadow var(--t-std) var(--ease);
+}
+.sound-btn:hover {
+  border-color: var(--warm);
+  color: var(--warm);
+}
+.sound-btn.active {
+  border-color: var(--warm);
+  color: var(--warm);
+  box-shadow: 0 0 24px var(--warm-dim);
+}
+.sound-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--warm);
+  opacity: .45;
+  flex-shrink: 0;
+  transition: opacity var(--t-std) var(--ease);
+}
+.sound-btn.active .sound-dot {
+  opacity: 1;
+  animation: dotPulse 1.8s ease-in-out infinite;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 30px; left: 50%;
+  transform: translateX(-50%);
+  color: var(--t3);
+  font-size: 11px;
+  letter-spacing: .25em;
+  animation: hintFloat 3s ease-in-out infinite;
+}
+@keyframes hintFloat {
+  0%, 100% { opacity: .3; transform: translateX(-50%) translateY(0); }
+  50%       { opacity: .6; transform: translateX(-50%) translateY(5px); }
+}
+
+/* ── LAYOUT ──────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--line);
+  max-width: 560px;
+  margin: 0 auto;
+}
+.section {
+  padding: 68px 28px;
+  max-width: 660px;
+  margin: 0 auto;
+}
+.section.wide { max-width: 780px; }
+.centered { text-align: center; }
+
+/* ── REVEAL ANIMATIONS ───────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity var(--t-cin) var(--ease),
+    transform var(--t-cin) var(--ease);
+}
+.reveal.d1 { transition-delay: 80ms; }
+.reveal.d2 { transition-delay: 160ms; }
+.reveal.d3 { transition-delay: 240ms; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ── TYPE SCALE (1.414 modular — fluid) ──────────────────── */
+.kicker {
+  color: var(--warm);
+  font-size: 11px;
+  letter-spacing: .4em;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(28px, 3.8vw, 40px);
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  margin-bottom: 26px;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--t1);
+  margin-bottom: 7px;
+}
+
+.lead {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(18px, 2.3vw, 23px);
+  color: var(--t1);
+  line-height: 1.55;
+  margin-bottom: 22px;
+}
+
+p {
+  font-size: clamp(15px, 1.55vw, 17px);
+  color: var(--t2);
+  line-height: 1.95;
+}
+p + p { margin-top: 18px; }
+
+/* ── DOME IMAGE ───────────────────────────────────────────── */
+.dome-wrap {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 40px;
+}
+.dome-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 8s var(--ease);
+}
+.dome-wrap:hover img { transform: scale(1.04); }
+.dome-wrap::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, var(--bg) 100%);
+}
+
+/* ── STEPS ────────────────────────────────────────────────── */
+.steps { display: flex; flex-direction: column; }
+.step {
+  display: flex; gap: 24px;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+  text-align: start;
+}
+.step:first-child { border-top: none; }
+.step-n {
+  font-family: var(--display);
+  color: var(--warm);
+  font-size: 34px; font-weight: 700;
+  line-height: 1; min-width: 34px;
+  opacity: .55;
+}
+.step p { font-size: 15.5px; line-height: 1.85; }
+
+/* ── WHO LIST ─────────────────────────────────────────────── */
+.who-list {
+  list-style: none;
+  display: flex; flex-direction: column;
+  gap: 18px;
+  text-align: start;
+}
+.who-list li {
+  position: relative;
+  padding-inline-start: 20px;
+  font-size: clamp(15.5px, 1.6vw, 17px);
+  color: var(--t2);
+  line-height: 1.8;
+}
+.who-list li::before {
+  content: '·';
+  position: absolute; inset-inline-start: 0;
+  color: var(--warm); font-size: 28px; line-height: .9;
+}
+
+.who-not {
+  margin-top: 28px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: var(--t3);
+  line-height: 1.85;
+  text-align: start;
+}
+.who-not b { color: var(--warm); font-weight: 500; }
+
+/* ── FAQ ─────────────────────────────────────────────────── */
+details {
+  border-top: 1px solid var(--line);
+  padding: 20px 0;
+  text-align: start;
+}
+details:first-of-type { border-top: none; }
+summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 16.5px;
+  color: var(--t1);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  transition: color var(--t-std) var(--ease);
+}
+summary:hover { color: var(--warm); }
+summary::-webkit-details-marker { display: none; }
+summary::after {
+  content: '+'; color: var(--warm); font-size: 22px; line-height: 1;
+  flex-shrink: 0;
+}
+details[open] summary::after { content: '–'; }
+details p {
+  color: var(--t2);
+  font-size: 15px;
+  line-height: 1.9;
+  margin-top: 14px;
+}
+
+/* ── BOOKING ──────────────────────────────────────────────── */
+.ticket-types {
+  display: flex; gap: 12px;
+  justify-content: center;
+  margin: 18px 0 22px;
+  flex-wrap: wrap;
+}
+.ttype {
+  flex: 1 1 0; min-width: 140px; max-width: 200px;
+  padding: 20px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--line2);
+  background: var(--warm-dim);
+  cursor: pointer;
+  transition:
+    border-color var(--t-std) var(--ease),
+    background var(--t-std) var(--ease);
+}
+.ttype:hover { border-color: rgba(232,184,104,.38); }
+.ttype.sel {
+  border-color: var(--warm);
+  background: rgba(232,184,104,.18);
+}
+.tt { font-size: 13px; color: var(--t2); margin-bottom: 8px; }
+.tp {
+  font-family: var(--display);
+  font-size: clamp(22px, 2.3vw, 28px);
+  color: var(--warm);
+  font-weight: 500;
+}
+
+.total { font-size: 14px; color: var(--t2); margin: 14px 0; }
+.total b {
+  font-family: var(--display);
+  font-size: 28px;
+  color: var(--warm);
+  font-weight: 500;
+}
+
+.cta-enter {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  padding: 16px 60px;
+  border-radius: 4px;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: .05em;
+  border: 1px solid var(--warm);
+  background: var(--warm);
+  color: var(--bg);
+  text-decoration: none;
+  margin-top: 8px;
+  transition:
+    background var(--t-std) var(--ease),
+    box-shadow var(--t-std) var(--ease),
+    transform var(--t-std) var(--ease);
+}
+.cta-enter:hover {
+  background: #f0c47e;
+  box-shadow: 0 0 52px var(--warm-glow);
+  transform: translateY(-2px);
+}
+.cta-enter:active { transform: translateY(0); }
+
+/* ── RELATED ──────────────────────────────────────────────── */
+.related { display: flex; flex-direction: column; gap: 10px; }
+.rel-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--t1);
+  text-decoration: none;
+  font-size: 15px;
+  transition: border-color var(--t-std) var(--ease);
+}
+.rel-item:hover { border-color: var(--line2); }
+.rel-meta { color: var(--t3); font-size: 13px; }
+
+/* ── PREVIEW FLAG ─────────────────────────────────────────── */
+.flag {
+  text-align: center;
+  color: var(--warm);
+  font-size: 11px;
+  letter-spacing: .22em;
+  padding: 16px;
+  border-top: 1px solid var(--line);
+  opacity: .55;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .section { padding: 52px 20px; }
+  .hero-inner { padding: 0 20px; }
+  .dome-wrap { border-radius: 4px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<!-- HERO: THE DOME FROM ABOVE — "You are already inside"    -->
+<!-- ──────────────────────────────────────────────────────── -->
+<header class="hero" id="hero">
+  <div class="hero-bg" style="background-image:url('img/dome-mandala.jpg'); opacity:.65;"></div>
+
+  <div class="hero-inner">
+    <div class="location anim-in" style="--d:0.3s">כיפת 360° · נמל יפו</div>
+    <h1 class="anim-in" style="--d:0.6s">מסע טרנס-וורבלי</h1>
+    <div class="h1-sub anim-in" style="--d:0.9s">מוזיקת טראנס שכוסחת את הקשב</div>
+    <div class="meta-row anim-in" style="--d:1.2s">
+      <span>שעתיים</span><span>קבוצה של 10</span><span class="price">החל מ-₪252</span>
+    </div>
+    <button class="sound-btn anim-in" style="--d:1.6s" id="soundBtn" onclick="toggleSound()">
+      <div class="sound-dot" id="soundDot"></div>
+      <span id="soundLabel">הדלק את הכיפה</span>
+    </button>
+  </div>
+  <div class="scroll-hint anim-in" style="--d:2.0s">↓</div>
+</header>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<!-- WHAT IT IS                                               -->
+<!-- ──────────────────────────────────────────────────────── -->
+<div class="divider"></div>
+<section class="section centered">
+  <div class="kicker reveal">מה זה</div>
+  <p class="lead reveal">מוזיקת טראנס שכוסחת את הקשב. כיפת 360° שמסלקת את ה"מחוץ". טקסטים שמגיעים ברגע שהגוף כבר לא מתנגד.</p>
+  <p class="reveal">ועד שמרגישים בזה — הגבולות בין הצליל, התמונה והמילה כבר אינם כל כך ברורים. מה שעולה ממנה אינו מדיטציה, אינו סדנה, אינו תרפיה. זו טריטוריה שהשם שלה עדיין מתגבש.</p>
+</section>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<!-- ANATOMY                                                  -->
+<!-- ──────────────────────────────────────────────────────── -->
+<div class="divider"></div>
+<section class="section wide centered">
+  <h2 class="reveal">מבנה <span class="accent">המסע</span></h2>
+
+  <div class="dome-wrap reveal">
+    <img src="img/dome-mandala.jpg" alt="הכיפה — הקרנת מנדלה פסיכדלית" loading="lazy">
+  </div>
+
+  <div class="steps" style="max-width:520px; margin:0 auto">
+    <div class="step reveal">
+      <div class="step-n">1</div>
+      <div>
+        <h3>כניסה</h3>
+        <p>מגיעים. מתכנסים. מתיישבים על המזרן. בוחרים שאלה, כוונה, או רק נשימה — ומגלים שאין הבדל גדול ביניהן.</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-n">2</div>
+      <div>
+        <h3>הצלילה</h3>
+        <p>מוזיקת טראנס. הקרנות 360°. הנחיה קולית. כשלושתם רצים ביחד — תשומת הלב מאבדת עניין בגבולות שביניהם.</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-n">3</div>
+      <div>
+        <h3>עלייה</h3>
+        <p>עלייה איטית. ישיבה יחד. מי שרוצה — מדבר. מי שלא — נשאר בשתיקה. שניהם נכונים בדיוק באותה מידה.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<!-- WHO FOR                                                  -->
+<!-- ──────────────────────────────────────────────────────── -->
+<div class="divider"></div>
+<section class="section centered">
+  <h2 class="reveal">למי <span class="accent">זה</span></h2>
+  <ul class="who-list reveal">
+    <li>אם מוזיקת טראנס לא מרקידה אותך — אלא לוקחת אותך לאיפשהו אחר.</li>
+    <li>אם אתה מגיע לפסטיבלים לא בשביל לרקוד — בשביל מה שקורה אחרי שעה.</li>
+    <li>אם השאלות שמעסיקות אותך נוגעות בתודעה, בזמן, ביקום.</li>
+    <li>אם אתה מחפש חוויה שמרחיבה — לא מרגיעה.</li>
+  </ul>
+  <div class="who-not reveal">
+    <b>מי לא:</b> אם אתה מחפש מדיטציה מרגיעה — יש לנו מסעות אחרים שמדברים אליך יותר. · החוויה כוללת אור, צבע, תנועה ודימויים — לא מתאים לרגישות לריצודים חזקים או לאפילפסיה. בכל ספק — כתבו לנו.
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<!-- FAQ — first 4 items only                                 -->
+<!-- ──────────────────────────────────────────────────────── -->
+<div class="divider"></div>
+<section class="section wide centered">
+  <h2 class="reveal">שאלות <span class="accent">נפוצות</span></h2>
+  <div style="max-width:580px; margin:0 auto">
+    <details open>
+      <summary>צריך ניסיון קודם?</summary>
+      <p>כן. לא ניסיון בטיפול או "עבודה פנימית" — ניסיון בלהיות נלקח לאיפשהו על ידי מוזיקה. אנשים שמכירים מה שקורה כשטראנס רץ שעה ומשהו בהם מתחיל לזוז — הם בדיוק בשביל זה.</p>
+    </details>
+    <details>
+      <summary>מה זה מסעות תודעה בכיפת VR?</summary>
+      <p>הם שילוב של מדיטציה מודרכת בתוך כיפת 360° בשכיבה על מזרן עם אוזניות, ללא משקפי VR.</p>
+    </details>
+    <details>
+      <summary>מה קורה במהלך החוויה?</summary>
+      <p>שוכבים על מזרן עם אוזניות. מעליכם כיפת 360° המציגה מרחבים, אור ותנועה. נשמעת הנחיה ומוזיקה, והמעבר בין התקרבות לחסך חושי והצפה רב חושית מאפשר להתקרב קצת לעולם הבלתי מילולי.</p>
+    </details>
+    <details>
+      <summary>מה זאת אומרת ההזמנה היא להגיע עם כוונה למסע?</summary>
+      <p>כוונה היא ההקשר הפנימי שאיתו מגיעים: שאלה, תפילה, איכות, ואפילו "לבוא בלי כוונה" זו כוונה. הכוונה מכווננת את תשומת הלב לאורך החוויה, בעדינות.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<!-- BOOKING / ENTER GATE                                     -->
+<!-- ──────────────────────────────────────────────────────── -->
+<div class="divider"></div>
+<section class="section centered" id="book">
+  <h2 class="reveal">מוכן <span class="accent">לצלול?</span></h2>
+  <div class="ticket-types reveal">
+    <div class="ttype sel" onclick="sel(this,252)">
+      <div class="tt">כרטיס יחיד</div>
+      <div class="tp">₪252</div>
+    </div>
+    <div class="ttype" onclick="sel(this,444)">
+      <div class="tt">כרטיס זוגי</div>
+      <div class="tp">₪444</div>
+    </div>
+  </div>
+  <div class="total reveal">סה״כ: <b id="tot">₪252</b></div>
+  <a class="cta-enter reveal" href="#">אני רוצה להיות שם</a>
+  <div class="reveal" style="margin-top:16px; font-size:13px; color:var(--t3)">שעתיים · קבוצה של 10 · נמל יפו</div>
+</section>
+
+<!-- ──────────────────────────────────────────────────────── -->
+<!-- RELATED                                                  -->
+<!-- ──────────────────────────────────────────────────────── -->
+<div class="divider"></div>
+<section class="section centered">
+  <div class="kicker reveal">מסעות נוספים</div>
+  <div class="related reveal">
+    <a class="rel-item" href="#"><span>מסע הזמן שלך</span><span class="rel-meta">60 דק׳ · מ-141 ₪</span></a>
+    <a class="rel-item" href="#"><span>מסע התיידדות</span><span class="rel-meta">60 דק׳ · מ-141 ₪</span></a>
+    <a class="rel-item" href="#"><span>מסע מה זה מדיטציה</span><span class="rel-meta">30 דק׳ · מ-52 ₪</span></a>
+  </div>
+</section>
+
+<div class="flag">⟡ PREVIEW · CONCEPT B · הכיפה מלמעלה</div>
+
+<script>
+/* ── SCROLL REVEALS ───────────────────────────────────── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ── SOUND: TRANCE KICK ───────────────────────────────── */
+let audioCtx, masterGain, kickTimer, soundOn = false;
+
+function initAudio() {
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  masterGain = audioCtx.createGain();
+  masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+  masterGain.connect(audioCtx.destination);
+
+  const droneGain = audioCtx.createGain(); droneGain.gain.value = 0.25;
+  const drone = audioCtx.createOscillator();
+  drone.type = 'sine'; drone.frequency.value = 110;
+  drone.connect(droneGain); droneGain.connect(masterGain);
+  drone.start();
+
+  const bpm = 130;
+  const interval = Math.round(60000 / bpm);
+  kickTimer = setInterval(() => {
+    if (!audioCtx || audioCtx.state !== 'running') return;
+    const now = audioCtx.currentTime;
+    const kGain = audioCtx.createGain();
+    kGain.gain.setValueAtTime(0.7, now);
+    kGain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+    kGain.connect(masterGain);
+    const k = audioCtx.createOscillator();
+    k.type = 'sine';
+    k.frequency.setValueAtTime(90, now);
+    k.frequency.exponentialRampToValueAtTime(45, now + 0.10);
+    k.connect(kGain); k.start(now); k.stop(now + 0.16);
+  }, interval);
+}
+
+function toggleSound() {
+  if (!audioCtx) initAudio();
+  soundOn = !soundOn;
+  const btn = document.getElementById('soundBtn');
+  const hero = document.getElementById('hero');
+
+  if (soundOn) {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    masterGain.gain.setTargetAtTime(0.18, audioCtx.currentTime, 2.0);
+    btn.classList.add('active');
+    document.getElementById('soundLabel').textContent = 'כבה';
+    hero.classList.add('sound-on');
+  } else {
+    masterGain.gain.setTargetAtTime(0, audioCtx.currentTime, 1.5);
+    btn.classList.remove('active');
+    document.getElementById('soundLabel').textContent = 'הדלק את הכיפה';
+    hero.classList.remove('sound-on');
+    if (kickTimer) { clearInterval(kickTimer); kickTimer = null; }
+  }
+}
+
+/* ── TICKET SELECTOR ──────────────────────────────────── */
+function sel(el, price) {
+  document.querySelectorAll('.ttype').forEach(t => t.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('tot').textContent = '₪' + price;
+}
+</script>
+</body>
+</html>
