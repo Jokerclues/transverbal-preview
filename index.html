@@ -231,10 +231,16 @@ h1 {
 /* Mobile art direction — portrait crop, designed not accidental */
 @media (max-width: 600px) {
   .hero-bg {
-    background-image: url("img/entry-slit-portrait.jpg");
-    background-size: cover;
-    background-position: center center;
+    background-position: center 38%;
+    background-size: 320%;
   }
+}
+
+picture.hero-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,rgba(18,16,14,.28) 0%,rgba(18,16,14,.55) 52%,var(--bg) 100%);
+  pointer-events: none;
 }
 
 /* ── LAYOUT ──────────────────────────────────────────────── */
@@ -611,7 +617,10 @@ details p {
 <!-- HERO: THE THRESHOLD                                      -->
 <!-- ──────────────────────────────────────────────────────── -->
 <header class="hero" id="hero">
-  <div class="hero-bg" id="heroBg"></div>
+  <picture class="hero-bg" id="heroBg" style="display:block;position:absolute;inset:0;">
+    <source srcset="img/entry-slit-portrait.jpg" media="(max-width: 600px)">
+    <img src="img/entry-slit.jpg" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;opacity:.52;">
+  </picture>
   <div class="slit-fallback" id="slitFallback"></div>
 
   <div class="hero-inner">
@@ -884,13 +893,13 @@ const bg = document.getElementById('heroBg');
 const probe = new Image();
 probe.onload = () => {};
 probe.onerror = () => {
-  bg.style.backgroundImage = 'none';
+  bg.style.display = 'none';
   document.getElementById('slitFallback').style.display = 'block';
 };
 probe.src = 'img/entry-slit.jpg';
 
-/* ── SOUND CHANNEL (trance synthesis: bass drone + 130BPM kick) ── */
-let audioCtx, masterGain, osc1, osc2, soundOn = false, kickTimer = null;
+/* ── SOUND CHANNEL (Web Audio API — trance) ──────────────── */
+let audioCtx, masterGain, kickTimer, droneOsc, soundOn = false;
 
 function initAudio() {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -898,50 +907,28 @@ function initAudio() {
   masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
   masterGain.connect(audioCtx.destination);
 
-  // Sub-bass drone — foundation layer
-  const g1 = audioCtx.createGain(); g1.gain.value = 0.45;
-  osc1 = audioCtx.createOscillator();
-  osc1.type = 'sine';
-  osc1.frequency.value = 55; // A1
-  osc1.connect(g1); g1.connect(masterGain);
+  // Drone: A2 — 110Hz
+  const droneGain = audioCtx.createGain(); droneGain.gain.value = 0.28;
+  droneOsc = audioCtx.createOscillator();
+  droneOsc.type = 'sine'; droneOsc.frequency.value = 110;
+  droneOsc.connect(droneGain); droneGain.connect(masterGain);
+  droneOsc.start();
 
-  // Pad layer — detuned fifth for warmth
-  const g2 = audioCtx.createGain(); g2.gain.value = 0.22;
-  osc2 = audioCtx.createOscillator();
-  osc2.type = 'sine';
-  osc2.frequency.value = 82.4; // E2
-  osc2.connect(g2); g2.connect(masterGain);
-
-  // Organic drift
-  const drift = new Float32Array([55, 55.4, 54.7, 55.2, 55.0]);
-  osc1.frequency.setValueCurveAtTime(drift, audioCtx.currentTime, 16);
-
-  osc1.start(); osc2.start();
-
-  // 130BPM kick — synthetic thump (80Hz→40Hz, 80ms decay)
-  const beatSec = 60 / 130; // 0.4615s
-  function scheduleKicks(fromTime, count) {
-    for (let i = 0; i < count; i++) {
-      const t = fromTime + i * beatSec;
-      const kOsc = audioCtx.createOscillator();
-      const kGain = audioCtx.createGain();
-      kOsc.type = 'sine';
-      kOsc.frequency.setValueAtTime(80, t);
-      kOsc.frequency.exponentialRampToValueAtTime(38, t + 0.07);
-      kGain.gain.setValueAtTime(0.5, t);
-      kGain.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
-      kOsc.connect(kGain); kGain.connect(masterGain);
-      kOsc.start(t); kOsc.stop(t + 0.14);
-    }
-  }
-  // Schedule kicks in rolling 4-beat windows
-  function rollKicks() {
-    if (!soundOn) return;
-    scheduleKicks(audioCtx.currentTime + 0.05, 8);
-    kickTimer = setTimeout(rollKicks, beatSec * 8 * 1000 - 50);
-  }
-  // Store rollKicks for use after toggle
-  initAudio._roll = rollKicks;
+  // 130 BPM kick pattern
+  const interval = Math.round(60000 / 130); // ~461ms
+  kickTimer = setInterval(() => {
+    if (!audioCtx || audioCtx.state !== 'running') return;
+    const now = audioCtx.currentTime;
+    const kGain = audioCtx.createGain();
+    kGain.gain.setValueAtTime(0.65, now);
+    kGain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+    kGain.connect(masterGain);
+    const k = audioCtx.createOscillator();
+    k.type = 'sine';
+    k.frequency.setValueAtTime(85, now);
+    k.frequency.exponentialRampToValueAtTime(42, now + 0.10);
+    k.connect(kGain); k.start(now); k.stop(now + 0.16);
+  }, interval);
 }
 
 function toggleSound() {
@@ -952,19 +939,17 @@ function toggleSound() {
   const hero = document.getElementById('hero');
 
   if (soundOn) {
-    masterGain.gain.setTargetAtTime(0.15, audioCtx.currentTime, 2.8);
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    masterGain.gain.setTargetAtTime(0.18, audioCtx.currentTime, 2.2);
     btn.classList.add('active');
     label.textContent = 'כבה';
     hero.classList.add('sound-on');
-    // Start 130BPM kick pattern
-    if (initAudio._roll) initAudio._roll();
   } else {
-    masterGain.gain.setTargetAtTime(0, audioCtx.currentTime, 2);
+    masterGain.gain.setTargetAtTime(0, audioCtx.currentTime, 1.8);
     btn.classList.remove('active');
     label.textContent = 'שמע מה שמחכה בפנים';
     hero.classList.remove('sound-on');
-    // Stop kick scheduler
-    if (kickTimer) { clearTimeout(kickTimer); kickTimer = null; }
+    if (kickTimer) { clearInterval(kickTimer); kickTimer = null; }
   }
 }
 

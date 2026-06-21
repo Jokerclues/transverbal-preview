@@ -1,0 +1,28 @@
+[INFO] 2026-06-21T13:51:39.130Z handleHookRunStop started
+[INFO] 2026-06-21T13:51:39.131Z Hook input received
+[INFO] 2026-06-21T13:51:39.132Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Session ID: 685458bd-3e47-4b41-b71d-54dbde2b4813
+[INFO] 2026-06-21T13:51:39.132Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Resolved pluginRoot: C:\Users\e\.claude\plugins\cache\a5c-ai\babysitter\4.0.157
+[INFO] 2026-06-21T13:51:39.132Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Resolved stateDir: C:\Users\e\.a5c\state
+[INFO] 2026-06-21T13:51:39.132Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Checking session file at: C:\Users\e\.a5c\state/685458bd-3e47-4b41-b71d-54dbde2b4813.md
+[INFO] 2026-06-21T13:51:39.133Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] No active loop found for session 685458bd-3e47-4b41-b71d-54dbde2b4813 — allowing exit
+[INFO] 2026-06-21T13:51:39.205Z handleHookRunStop started
+[INFO] 2026-06-21T13:51:39.206Z Hook input received
+[INFO] 2026-06-21T13:51:39.207Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Session ID: 685458bd-3e47-4b41-b71d-54dbde2b4813
+[INFO] 2026-06-21T13:51:39.207Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Resolved pluginRoot: C:\Users\e\.claude\plugins\cache\a5c-ai\babysitter\4.0.157
+[INFO] 2026-06-21T13:51:39.207Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Resolved stateDir: C:\Users\e\.a5c\state
+[INFO] 2026-06-21T13:51:39.207Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Checking session file at: C:\Users\e\.a5c\state/685458bd-3e47-4b41-b71d-54dbde2b4813.md
+[INFO] 2026-06-21T13:51:39.208Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] No active loop found for session 685458bd-3e47-4b41-b71d-54dbde2b4813 — allowing exit
+[INFO] 2026-06-21T14:16:44.417Z handleHookRunStop started
+[INFO] 2026-06-21T14:16:44.419Z Hook input received
+[INFO] 2026-06-21T14:16:44.419Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Session ID: 685458bd-3e47-4b41-b71d-54dbde2b4813
+[INFO] 2026-06-21T14:16:44.419Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Resolved pluginRoot: C:\Users\e\.claude\plugins\cache\a5c-ai\babysitter\4.0.157
+[INFO] 2026-06-21T14:16:44.419Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Resolved stateDir: C:\Users\e\.a5c\state
+[INFO] 2026-06-21T14:16:44.420Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Checking session file at: C:\Users\e\.a5c\state/685458bd-3e47-4b41-b71d-54dbde2b4813.md
+[INFO] 2026-06-21T14:16:44.420Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] No active loop found for session 685458bd-3e47-4b41-b71d-54dbde2b4813 — allowing exit
+[INFO] 2026-06-21T14:16:44.494Z handleHookRunStop started
+[INFO] 2026-06-21T14:16:44.495Z Hook input received
+[INFO] 2026-06-21T14:16:44.496Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Session ID: 685458bd-3e47-4b41-b71d-54dbde2b4813
+[INFO] 2026-06-21T14:16:44.496Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Resolved pluginRoot: C:\Users\e\.claude\plugins\cache\a5c-ai\babysitter\4.0.157
+[INFO] 2026-06-21T14:16:44.496Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Resolved stateDir: C:\Users\e\.a5c\state
+[INFO] 2026-06-21T14:16:44.496Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] Checking session file at: C:\Users\e\.a5c\state/685458bd-3e47-4b41-b71d-54dbde2b4813.md
+[INFO] 2026-06-21T14:16:44.497Z [session=685458bd-3e47-4b41-b71d-54dbde2b4813] No active loop found for session 685458bd-3e47-4b41-b71d-54dbde2b4813 — allowing exit
