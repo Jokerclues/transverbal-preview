@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מסע טרנס-וורבלי · בית הרמזים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0C0F1C;--ink:#F4F7FB;--muted:#A3ADC2;--turq:#3FE9DA;--blue:#3E86FF;
+    --rbtn:4px;--rcard:12px;--serif:"David Libre",Georgia,serif;--sans:"Heebo",system-ui,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;line-height:1.7}
+  #gl{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block;opacity:0;transition:opacity 1.1s ease}
+  #gl.on{opacity:1}
+  .fallbg{position:fixed;inset:0;z-index:0;display:none;background:radial-gradient(120% 90% at 50% 0%,#15306b 0%,#0C0F1C 60%)}
+
+  .nav{position:fixed;top:0;inset-inline:0;z-index:9;display:flex;justify-content:space-between;align-items:center;
+       padding:1.5rem 6vw;font-size:.8rem;letter-spacing:.06em;color:var(--muted);mix-blend-mode:screen}
+  .nav .brand{font-weight:700;letter-spacing:.2em;color:var(--ink)} .nav .brand b{color:var(--turq)}
+
+  main{position:relative;z-index:2}
+  section{padding:0 6vw;max-width:1100px;margin:0 auto}
+  .full{min-height:100svh;display:flex;flex-direction:column;justify-content:center}
+  .eyebrow{font-weight:600;font-size:.8rem;letter-spacing:.34em;color:var(--turq);margin-bottom:1.5rem}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(2.7rem,8vw,6.6rem);line-height:1.04;letter-spacing:.01em;max-width:15ch;text-wrap:balance;text-shadow:0 2px 50px rgba(12,15,28,.7)}
+  .phys{margin-top:1.5rem;font-size:clamp(1rem,2vw,1.2rem);color:var(--ink);max-width:40ch;font-weight:400}
+  .line{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.4vw,1.5rem);opacity:.9;margin-top:1.2rem;max-width:38ch;line-height:1.5}
+  .row{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-top:2.6rem}
+  .cta{display:inline-flex;align-items:center;gap:.6rem;font-weight:500;font-size:1.02rem;color:#0C0F1C;
+    background:linear-gradient(100deg,var(--turq),#9af6ec);padding:.9rem 1.9rem;border-radius:var(--rbtn);text-decoration:none;
+    box-shadow:0 0 40px color-mix(in oklab,var(--turq),transparent 60%);transition:transform .3s,box-shadow .3s}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 8px 50px color-mix(in oklab,var(--turq),transparent 45%)}
+  .cta.ghost{background:transparent;color:var(--ink);border:1px solid color-mix(in oklab,var(--turq),transparent 55%);box-shadow:none}
+  .cta.ghost:hover{border-color:var(--turq)}
+  .meta{display:flex;gap:1.6rem;flex-wrap:wrap;font-size:.92rem;color:var(--muted);margin-top:1.6rem}
+  .meta span{position:relative}
+  .meta span:not(:last-child)::after{content:"";position:absolute;inset-inline-start:-.85rem;top:50%;width:4px;height:4px;border-radius:50%;background:color-mix(in oklab,var(--turq),transparent 35%);transform:translateY(-50%)}
+  .sound{display:inline-flex;align-items:center;gap:.55rem;cursor:pointer;color:var(--muted);font:inherit;font-size:.85rem;letter-spacing:.04em;
+    border:1px solid color-mix(in oklab,var(--turq),transparent 55%);padding:.55rem 1rem;border-radius:var(--rbtn);background:rgba(255,255,255,.02);transition:.3s}
+  .sound:hover,.sound:focus-visible{border-color:var(--turq);color:var(--ink);outline:none}
+  .sound .dot{width:9px;height:9px;border-radius:50%;background:var(--turq);box-shadow:0 0 12px var(--turq)}
+  .sound.playing .dot{animation:snd .9s ease-in-out infinite} @keyframes snd{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.5);opacity:1}}
+
+  h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.9rem,5vw,3.4rem);line-height:1.12;max-width:20ch;margin-bottom:1.4rem}
+  h2 .am{color:var(--turq)}
+  .essence{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.9rem);line-height:1.4;max-width:20ch;font-weight:400}
+  .essence .glow{background:linear-gradient(100deg,var(--blue),var(--turq));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .kicker{font-weight:600;letter-spacing:.3em;color:var(--turq);font-size:.8rem;margin-bottom:1.2rem}
+
+  /* anatomy */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:1rem}
+  .step{background:rgba(12,15,28,.55);border:1px solid rgba(201,216,255,.09);border-radius:var(--rcard);backdrop-filter:blur(4px);padding:1.8rem}
+  .step .n{font-family:var(--serif);font-size:2.2rem;color:var(--turq);line-height:1;margin-bottom:.7rem}
+  .step h3{font-family:var(--serif);font-weight:500;font-size:1.35rem;margin-bottom:.6rem}
+  .step p{color:var(--muted);font-size:.98rem}
+  @media(max-width:760px){.steps{grid-template-columns:1fr}}
+
+  /* who-for / not */
+  .who{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:1rem}
+  .who .card{background:rgba(12,15,28,.55);border:1px solid rgba(201,216,255,.09);border-radius:var(--rcard);padding:1.8rem}
+  .who .card.not{border-color:rgba(255,140,120,.18)}
+  .who h3{font-family:var(--serif);font-weight:500;font-size:1.3rem;margin-bottom:1rem}
+  .who ul{list-style:none;display:flex;flex-direction:column;gap:.7rem} .who li{color:var(--muted);padding-inline-start:1.4rem;position:relative}
+  .who li::before{content:"";position:absolute;inset-inline-start:0;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--turq)}
+  .who .not li::before{background:#ff8c78}
+  @media(max-width:760px){.who{grid-template-columns:1fr}}
+
+  /* guides */
+  .guides{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:1rem}
+  .guide{background:rgba(12,15,28,.55);border:1px solid rgba(201,216,255,.09);border-radius:var(--rcard);padding:1.8rem}
+  .guide h3{font-family:var(--serif);font-weight:500;font-size:1.4rem;margin-bottom:.3rem} .guide .role{color:var(--turq);font-size:.85rem;letter-spacing:.05em;margin-bottom:.9rem} .guide p{color:var(--muted);font-size:.98rem}
+  @media(max-width:760px){.guides{grid-template-columns:1fr}}
+
+  /* evidence */
+  #evidence{text-align:center}
+  .strip{display:flex;gap:1.3rem;flex-wrap:wrap;justify-content:center;margin-top:.6rem}
+  .strip figure{width:clamp(150px,20vw,260px);margin:0}
+  .strip img{width:100%;height:clamp(190px,24vw,320px);object-fit:cover;border-radius:var(--rcard);display:block;
+    filter:saturate(.62) brightness(.96) contrast(1.05);border:1px solid color-mix(in oklab,var(--turq),transparent 72%);box-shadow:0 14px 50px rgba(12,15,28,.6);transition:transform .5s,filter .5s}
+  .strip figure:hover img{transform:translateY(-6px) scale(1.02);filter:saturate(.85) brightness(1.04)}
+  .strip figcaption{margin-top:.8rem;font-size:.82rem;color:var(--muted)}
+  .ev-foot{margin-top:2.2rem;font-family:var(--serif);font-style:italic;color:var(--muted);font-size:1.05rem}
+
+  /* logistics + policy */
+  .info{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:1rem}
+  .info .card{background:rgba(12,15,28,.55);border:1px solid rgba(201,216,255,.09);border-radius:var(--rcard);padding:1.8rem}
+  .info h3{font-family:var(--serif);font-weight:500;font-size:1.25rem;margin-bottom:.9rem} .info p{color:var(--muted);font-size:.98rem;margin-bottom:.5rem}
+  @media(max-width:760px){.info{grid-template-columns:1fr}}
+
+  /* FAQ */
+  .faq{margin-top:1rem}
+  details{border-bottom:1px solid rgba(201,216,255,.1);padding:1.1rem 0}
+  summary{font-family:var(--serif);font-size:1.15rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink)}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--turq);font-size:1.4rem;transition:.3s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{color:var(--muted);margin-top:.8rem;font-size:.98rem;max-width:64ch}
+
+  /* booking */
+  #book{text-align:center}
+  .prices{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin:1.6rem 0 2rem}
+  .price{background:rgba(12,15,28,.55);border:1px solid rgba(201,216,255,.1);border-radius:var(--rcard);padding:1.4rem 2.2rem;min-width:180px}
+  .price .lab{color:var(--muted);font-size:.9rem;margin-bottom:.4rem} .price .val{font-family:var(--serif);font-size:2.1rem;color:var(--ink)}
+  .availnote{color:var(--muted);font-size:.9rem;margin-top:1.2rem}
+  .contact{margin-top:1.4rem;font-size:.92rem;color:var(--muted)} .contact a{color:var(--turq);text-decoration:none}
+
+  footer{position:relative;z-index:2;text-align:center;padding:3rem 6vw 4rem;color:var(--muted);font-size:.85rem;border-top:1px solid rgba(201,216,255,.08)}
+  footer a{color:var(--turq);text-decoration:none}
+
+  .reveal{opacity:0;transform:translateY(30px)}
+  .sticky-cta{position:fixed;bottom:1.2rem;inset-inline:0;margin:0 auto;width:max-content;z-index:25;opacity:0;pointer-events:none;transition:opacity .4s}
+  .sticky-cta.show{opacity:1;pointer-events:auto} @media(min-width:761px){.sticky-cta{display:none}}
+  .scrollnote{position:fixed;bottom:1rem;inset-inline-start:1.1rem;z-index:30;font-size:.62rem;letter-spacing:.1em;color:color-mix(in oklab,var(--muted),transparent 45%);border:1px solid color-mix(in oklab,var(--muted),transparent 82%);padding:.3rem .6rem;border-radius:999px;background:rgba(12,15,28,.5)}
+
+  /* ===== נגישות: reduced-motion — מכבה shader, flicker, אנימציות ===== */
+  @media (prefers-reduced-motion: reduce){
+    #gl{display:none!important} .fallbg{display:block}
+    .reveal{opacity:1!important;transform:none!important}
+    .sound .dot{animation:none}
+    *{scroll-behavior:auto!important}
+  }
+</style>
+</head>
+<body>
+  <canvas id="gl"></canvas>
+  <div class="fallbg"></div>
+  <audio id="snd" loop preload="none" src="assets/ambient.mp3"></audio>
+  <div class="nav"><div class="brand">בית הרמזים <b>◇</b></div><div>נמל יפו · כיפת 360°</div></div>
+
+  <main>
+    <section id="hero" class="full">
+      <div class="eyebrow reveal">מסע טרנס-וורבלי</div>
+      <h1 class="reveal">מה שממשיך אחרי שהמילה נגמרת</h1>
+      <p class="phys reveal">שוכבים על הגב בתוך כיפת הקרנה 360°, אוזניות, מוזיקת טראנס בעוצמה מלאה. שעתיים. בלי משקפי VR.</p>
+      <p class="line reveal">לא לרקוד אליה. לצלול בה.</p>
+      <div class="row reveal">
+        <a class="cta" href="#book">לצלול פנימה</a>
+        <button class="sound" id="sound" aria-label="הפעלת סאונד אמביינט מהמסע" aria-pressed="false"><span class="dot"></span> שמע מה שבפנים</button>
+      </div>
+      <div class="meta reveal"><span>שעתיים</span><span>שכיבה בכיפה</span><span>קבוצה של 10</span><span>יחיד ₪252</span><span>זוג ₪444</span></div>
+    </section>
+
+    <section id="essence" class="full">
+      <p class="essence reveal">מוזיקת טראנס שכוסחת את הקשב. כיפה שמסלקת את ה״מחוץ״.
+        <span class="glow">והגבולות בין הצליל, התמונה והמילה כבר אינם ברורים.</span></p>
+    </section>
+
+    <section class="full">
+      <div class="kicker reveal">מבנה המסע</div>
+      <div class="steps">
+        <div class="step reveal"><div class="n">01</div><h3>כניסה</h3><p>מגיעים, מתכנסים, מתיישבים על המזרן. בוחרים שאלה, כוונה, או רק נשימה.</p></div>
+        <div class="step reveal"><div class="n">02</div><h3>הצלילה</h3><p>מוזיקת טראנס, הקרנות 360°, הנחיה קולית. שלושתם רצים יחד עד שהקשב מאבד עניין בגבולות שביניהם.</p></div>
+        <div class="step reveal"><div class="n">03</div><h3>העלייה</h3><p>עלייה איטית, ישיבה משותפת. מי שרוצה מדבר, מי שלא נשאר בשתיקה. שניהם נכונים באותה מידה.</p></div>
+      </div>
+    </section>
+
+    <section class="full">
+      <div class="kicker reveal">למי זה</div>
+      <div class="who">
+        <div class="card reveal"><h3>זה בשבילך אם</h3><ul>
+          <li>מוזיקת טראנס לא מרקידה אותך אלא לוקחת אותך לאיפשהו אחר.</li>
+          <li>אתה מגיע לפסטיבלים בשביל מה שקורה אחרי שעה, לא בשביל לרקוד.</li>
+          <li>השאלות שמעסיקות אותך נוגעות בתודעה, בזמן, ביקום.</li>
+          <li>אתה מחפש חוויה שמרחיבה, לא מרגיעה.</li>
+        </ul></div>
+        <div class="card not reveal"><h3>זה לא בשבילך אם</h3><ul>
+          <li>אתה מחפש מדיטציה מרגיעה. יש לנו מסעות אחרים שמדברים אליך יותר.</li>
+          <li>יש רגישות לריצודים או אפילפסיה. החוויה כוללת אור, צבע ותנועה.</li>
+          <li>אתה צריך גירוי חיצוני קבוע ומתקשה לשבת עם שתיקה.</li>
+        </ul></div>
+      </div>
+    </section>
+
+    <section class="full">
+      <div class="kicker reveal">מי מנחה</div>
+      <div class="guides">
+        <div class="guide reveal"><h3>ליאור הר לב</h3><div class="role">אמן רב תחומי, מנחה</div><p>מלווה אנשים בתהליכי התפתחות בטבע. יוצר סדנאות, חוויות ומרחבים טקסיים להרחבת הלב והתודעה.</p></div>
+        <div class="guide reveal"><h3>אליהו אטיאס</h3><div class="role">מתרגל מדיטציה, מייסד בית הרמזים</div><p>מגיע מעולמות הרוח, התודעה והטכנולוגיה. מבקש להרחיב את הדיבור הבלתי מילולי עם היקום ועם עצמנו.</p></div>
+      </div>
+    </section>
+
+    <section id="evidence" class="full">
+      <div class="kicker reveal">רגעים ממסעות אמיתיים · כיפת נמל יפו</div>
+      <div class="strip reveal">
+        <figure><img src="assets/01-hand-reaching-blue-lace-fractal.jpg" alt="יד אל פרקטל כחול על קיר הכיפה"><figcaption>יד אל הפרקטל</figcaption></figure>
+        <figure><img src="assets/01-peacock-mandala-wide-hero.jpg" alt="הקרנת מנדלה על תקרת הכיפה"><figcaption>תקרת המנדלה</figcaption></figure>
+        <figure><img src="assets/photo_1.jpg" alt="שמי כוכבים מוקרנים בכיפה"><figcaption>שמי הכיפה</figcaption></figure>
+      </div>
+      <p class="ev-foot reveal">לא רינדור. לא דמיון. זה מה שקורה שם בפנים.</p>
+    </section>
+
+    <section class="full">
+      <div class="kicker reveal">לפני שמגיעים</div>
+      <div class="info">
+        <div class="card reveal"><h3>איך מגיעים</h3>
+          <p>בית המכולות, ביתן 3, נמל יפו 3, תל אביב-יפו.</p>
+          <p>חניון עירוני צמוד (כ-16 ₪ לשעה). תחבורה ציבורית: הרכבת הקלה לאזור.</p>
+          <p>מומלץ להגיע 20 דקות מראש. אין כניסה לאחר תחילת המסע.</p>
+        </div>
+        <div class="card reveal"><h3>מה ללבוש ולהביא</h3>
+          <p>לבוש נוח ושכבות קלות לפי הצורך.</p>
+          <p>המסע בשכיבה על מזרן עם אוזניות. הכניסה לכיפה בגרביים, ויש גרביים נקיות במקום.</p>
+        </div>
+        <div class="card reveal"><h3>מדיניות ביטול</h3>
+          <p>ביטול עד 48 שעות מראש: החזר מלא בניכוי 5%.</p>
+          <p>פחות מ-48 שעות: החזר 50%. איחור שמנע כניסה: החזר 50%.</p>
+        </div>
+        <div class="card reveal"><h3>ניסיון קודם</h3>
+          <p>לא נדרש ניסיון בטיפול או בעבודה פנימית.</p>
+          <p>נדרש ניסיון בלהיות נלקח לאיפשהו על ידי מוזיקה. מי שמכיר מה קורה כשטראנס רץ שעה ומשהו בו מתחיל לזוז.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="full">
+      <div class="kicker reveal">שאלות נפוצות</div>
+      <div class="faq reveal">
+        <details><summary>מה זה מסע תודעה בכיפת 360°?</summary><p>שילוב של הנחיה קולית ומוזיקה בתוך כיפת הקרנה 360°, בשכיבה על מזרן עם אוזניות, ללא משקפי VR.</p></details>
+        <details><summary>מה קורה במהלך החוויה?</summary><p>שוכבים על מזרן עם אוזניות. מעליכם כיפה המציגה מרחבים, אור ותנועה. המעבר בין חסך חושי להצפה רב חושית מאפשר להתקרב לעולם הבלתי מילולי. כמו מדיטציה שבה עולה מה שנכון לנו ברגע.</p></details>
+        <details><summary>איך מרגיש VR בלי משקפיים?</summary><p>הקרנה פנורמית מסביבכם, ללא משקפיים. עדינה לעיניים ונוחה גם למי שמתקשה עם משקפי VR.</p></details>
+        <details><summary>מה זאת הזמנה להגיע עם כוונה?</summary><p>כוונה היא ההקשר הפנימי שאיתו מגיעים: שאלה, תפילה, איכות. אפילו לבוא בלי כוונה היא כוונה. היא מכווננת את הקשב לאורך החוויה, בעדינות.</p></details>
+        <details><summary>בריאות ונגישות</summary><p>רגישות לריצודים או אפילפסיה: החוויה אינה מתאימה. המבנה והמקום נגישים, המסע בשכיבה בכיפה מתנפחת. לכל התאמה מיוחדת צרו קשר מראש.</p></details>
+        <details><summary>כמה אנשים בקבוצה?</summary><p>עד 10 משתתפים בכל מסע.</p></details>
+      </div>
+    </section>
+
+    <section id="book" class="full">
+      <div class="eyebrow reveal">מוכן לצלול?</div>
+      <h1 class="reveal" style="margin:0 auto">שעתיים מעבר לשפה</h1>
+      <div class="prices reveal">
+        <div class="price"><div class="lab">כרטיס יחיד</div><div class="val">₪252</div></div>
+        <div class="price"><div class="lab">כרטיס זוגי</div><div class="val">₪444</div></div>
+      </div>
+      <div class="row reveal" style="justify-content:center">
+        <a class="cta" href="mailto:e@houseofclues.world?subject=הזמנה%20למסע%20טרנס-וורבלי">להזמין מקום</a>
+        <a class="cta ghost" href="mailto:e@houseofclues.world?subject=שאלה%20על%20מסע%20טרנס-וורבלי">יש לי שאלה</a>
+      </div>
+      <p class="availnote reveal">מועדים נפתחים לפי זמינות. כתבו לנו ונמצא יחד את התאריך.</p>
+      <p class="contact reveal">בית הרמזים · נמל יפו · <a href="mailto:e@houseofclues.world">e@houseofclues.world</a></p>
+    </section>
+  </main>
+
+  <footer>בית הרמזים · בית המכולות, ביתן 3, נמל יפו · <a href="mailto:e@houseofclues.world">e@houseofclues.world</a></footer>
+
+  <a class="sticky-cta cta" id="stickycta" href="#book">להזמין מקום</a>
+  <div class="scrollnote">v11 · גרסה לפני deploy</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script>
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const snd=document.getElementById('snd'),btn=document.getElementById('sound');
+let audioOn=0;
+btn.addEventListener('click',()=>{const on=!snd.paused;
+  if(!on){snd.volume=0;snd.play().then(()=>{gsap?.to?.(snd,{volume:0.55,duration:1.5})||(snd.volume=0.55);btn.classList.add('playing');btn.setAttribute('aria-pressed','true');audioOn=1;}).catch(()=>{btn.querySelector('.dot').style.background='#ff6b6b';});}
+  else{snd.pause();btn.classList.remove('playing');btn.setAttribute('aria-pressed','false');audioOn=0;}});
+
+if(!REDUCE){
+  const VERT=`varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.0,1.0); }`;
+  const FRAG=`
+  precision highp float; varying vec2 vUv;
+  uniform float uTime,uScroll,uAudio,uGrain; uniform vec2 uRes,uMouse;
+  float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+  float noise(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.0-2.0*f);
+   return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);}
+  float fbm(vec2 p){float v=0.0,a=0.5;for(int i=0;i<5;i++){v+=a*noise(p);p*=2.02;a*=0.5;}return v;}
+  void main(){
+   vec2 uv=vUv; vec2 p=uv*2.6; p.x*=uRes.x/uRes.y;
+   float t=uTime*(0.06+uAudio*0.05); p+=uMouse*0.25;
+   vec2 q=vec2(fbm(p+t),fbm(p+vec2(5.2,1.3)-t));
+   vec2 r=vec2(fbm(p+3.0*q+vec2(1.7,9.2)+t*0.4),fbm(p+3.0*q+vec2(8.3,2.8)-t*0.4));
+   float f=fbm(p+3.0*r);
+   vec3 deep=vec3(0.03,0.04,0.09),blue=vec3(0.16,0.42,1.0),turq=vec3(0.20,0.90,0.84);
+   vec3 col=mix(deep,blue,smoothstep(0.05,0.75,f));
+   col=mix(col,turq,smoothstep(0.55,1.05,f)*(0.45+0.55*r.x));
+   float d=distance(uv,vec2(0.5,0.06)); col+=turq*exp(-d*2.6)*(0.22+uAudio*0.15);
+   col*=mix(0.6,1.18,uScroll); col+=f*f*turq*0.13*uScroll;
+   col+=pow(max(col-vec3(0.62),0.0),vec3(1.7))*0.35;
+   float g=(noise(uv*uRes.xy*0.5+floor(uTime*8.0))-0.5)*uGrain;  // grain איטי (8/s, לא 60) + עדין
+   col+=g;
+   float vig=smoothstep(1.28,0.15,distance(uv,vec2(0.5))); col*=mix(0.6,1.0,vig);
+   col=pow(max(col,0.0),vec3(0.92));
+   gl_FragColor=vec4(col,1.0);
+  }`;
+  const cv=document.getElementById('gl');
+  // רשת-ביטחון: אם ה-WebGL נופל (מכשיר חלש/זיכרון) — נפילה בחן לרקע-גרדיאנט
+  cv.addEventListener('webglcontextlost',e=>{e.preventDefault();cv.style.display='none';document.querySelector('.fallbg').style.display='block';});
+  const renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,powerPreference:'high-performance'});
+  renderer.setPixelRatio(Math.min(1.75,devicePixelRatio||1));
+  const scene=new THREE.Scene(),cam=new THREE.Camera();
+  const U={uTime:{value:0},uScroll:{value:0},uAudio:{value:0},uGrain:{value:0.022},uRes:{value:new THREE.Vector2(1,1)},uMouse:{value:new THREE.Vector2(0,0)}};
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),new THREE.ShaderMaterial({vertexShader:VERT,fragmentShader:FRAG,uniforms:U})));
+  function size(){renderer.setSize(innerWidth,innerHeight,false);U.uRes.value.set(innerWidth,innerHeight);}
+  addEventListener('resize',size);size();
+  let tmx=0,tmy=0;addEventListener('mousemove',e=>{tmx=(e.clientX/innerWidth-.5)*2;tmy=(e.clientY/innerHeight-.5)*2});
+  cv.classList.add('on');
+  gsap.registerPlugin(ScrollTrigger);
+  const lenis=new Lenis({lerp:0.09,smoothWheel:true,syncTouch:false});
+  lenis.on('scroll',ScrollTrigger.update);
+  const clock=new THREE.Clock();
+  gsap.ticker.add((time)=>{lenis.raf(time*1000);U.uTime.value=clock.getElapsedTime();U.uAudio.value+=(audioOn-U.uAudio.value)*0.05;
+    U.uMouse.value.x+=(tmx-U.uMouse.value.x)*0.03;U.uMouse.value.y+=(tmy-U.uMouse.value.y)*0.03;renderer.render(scene,cam);});
+  gsap.ticker.lagSmoothing(0);
+  gsap.to(U.uScroll,{value:1,ease:'none',scrollTrigger:{trigger:'#essence',start:'top bottom',endTrigger:'#evidence',end:'top center',scrub:0.6}});
+  gsap.utils.toArray('.reveal').forEach(el=>gsap.to(el,{opacity:1,y:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 90%'}}));
+  const sticky=document.getElementById('stickycta');
+  function stick(){if(scrollY>innerHeight*0.7)sticky.classList.add('show');else sticky.classList.remove('show');}
+  addEventListener('scroll',stick,{passive:true});lenis.on('scroll',stick);
+}
+</script>
+</body>
+</html>
